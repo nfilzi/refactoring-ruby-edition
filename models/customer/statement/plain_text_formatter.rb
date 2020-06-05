@@ -3,7 +3,9 @@ require_relative 'base_formatter'
 class Customer
   class Statement
     class PlainTextFormatter < BaseFormatter
-      def render
+      private
+
+      def content
         @text ||= <<~TXT
           #{title}
           #{body}
@@ -11,8 +13,6 @@ class Customer
         TXT
         .chomp
       end
-
-      private
 
       def title
         "Rental Record for #{customer.name}"

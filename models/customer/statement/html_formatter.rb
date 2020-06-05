@@ -4,48 +4,36 @@ require_relative 'base_formatter'
 class Customer
   class Statement
     class HtmlFormatter < BaseFormatter
+      private
 
-      def render
-        <<~HTML
-          #{title}
-          #{body}
-          #{footer}
-        HTML
+      def title
+        render_component(:title)
+      end
+
+      def body
+        render_component(:rentals)
+      end
+
+      def footer
+        render_component(:footer)
       end
 
       private
 
-      def title
-        <<~HTML
-          <h1>Rental Record for #{customer.name}</h1>
-        HTML
-      end
-
-      def body
-        html = <<-HTML
-          <ul>
-            <% customer.rentals.map do |rental| %>
-              <%= rental_line(rental) %>
-            <% end %>
-          </ul>
-        HTML
+      def render_component(component)
+        component_path = components_templates_paths_mapping[component]
+        path = File.join(__dir__, component_path)
+        html = File.read(path)
 
         ERB.new(html).result(binding)
       end
 
-      def footer
-        <<~HTML
-          <footer>
-            <section>Amount owed is #{customer.total_amount_due}</section>
-            <section>You earned #{customer.total_frequent_renter_points} frequent renter points</section>
-          </footer>
-        HTML
-      end
-
-      def rental_line(rental)
-        <<~HTML
-          <li>#{rental.movie.title} €#{rental.amount_due.to_s}</li>
-        HTML
+      def components_templates_paths_mapping
+        {
+          title:   'html_templates/title.html.erb',
+          rentals: 'html_templates/rentals.html.erb',
+          footer:  'html_templates/footer.html.erb'
+        }
       end
     end
   end

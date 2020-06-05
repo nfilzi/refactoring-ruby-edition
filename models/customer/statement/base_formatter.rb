@@ -8,10 +8,14 @@ class Customer
       end
 
       def render
-        raise NotImplementedError
+        content || "#{title}#{body}#{footer}"
       end
 
       private
+
+      def content
+        nil
+      end
 
       def customer
         statement.customer

@@ -1,0 +1,5 @@
+<ul>
+  <% customer.rentals.map do |rental| %>
+    <li><%= rental.movie.title %> €<%= rental.amount_due.to_s %></li>
+  <% end %>
+</ul>

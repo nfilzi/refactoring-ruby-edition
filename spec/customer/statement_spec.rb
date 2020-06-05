@@ -135,7 +135,6 @@ RSpec.describe Customer::Statement do
           end
         end
       end
-
     end
 
     describe 'its footer' do
