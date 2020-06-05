@@ -1,6 +1,6 @@
-require_relative 'movie'
-require_relative 'customer'
-require_relative 'rental'
+require_relative 'models/movie'
+require_relative 'models/customer'
+require_relative 'models/rental'
 
 lotr_1 = Movie.new('LOTR - The Fellowship of the Ring', 0)
 lotr_2 = Movie.new('LOTR - The Two Towers',             0)
