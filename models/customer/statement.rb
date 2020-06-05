@@ -33,9 +33,11 @@ class Customer
     end
 
     def rental_line(rental)
-      space_needed_after_move_title = " " * (50 - rental.movie.title.length)
-      "\t#{rental.movie.title}#{space_needed_after_move_title}#{rental.amount_due}"
+      "\t" + rental.movie.title + rental_line_spacer_after_movie_title(rental) + rental.amount_due.to_s
     end
 
+    def rental_line_spacer_after_movie_title(rental)
+      " " * (50 - rental.movie.title.length)
+    end
   end
 end
