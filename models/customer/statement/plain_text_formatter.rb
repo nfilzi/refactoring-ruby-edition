@@ -1,12 +1,8 @@
+require_relative 'base_formatter'
+
 class Customer
   class Statement
-    class PlainTextFormatter
-      attr_reader :statement
-
-      def initialize(statement)
-        @statement = statement
-      end
-
+    class PlainTextFormatter < BaseFormatter
       def render
         @text ||= <<~TXT
           #{title}
@@ -17,10 +13,6 @@ class Customer
       end
 
       private
-
-      def customer
-        statement.customer
-      end
 
       def title
         "Rental Record for #{customer.name}"
