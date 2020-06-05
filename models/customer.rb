@@ -1,5 +1,7 @@
+require_relative 'customer/statement'
+
 class Customer
-  attr_reader :name
+  attr_reader :name, :rentals
 
   def initialize(name)
     @name    = name
@@ -16,38 +18,15 @@ class Customer
 
   def frequent_renter_points
     @frequent_renter_points ||= begin
-      rentals_points = @rentals.map do |rental|
-        1 + rental.bonus_frequent_renter_points
-      end
-
-      rentals_points.sum
+      @rentals.map { |rental| rental.total_frequent_renter_points }.sum
     end
   end
 
   def statement
-    text = statement_title
-
-    @rentals.each do |element|
-      text += statement_line_for_rental(element)
-    end
-
-    text += statement_footer(total_amount, frequent_renter_points)
-    text
+    Customer::Statement.new(self)
   end
 
-  def statement_title
-    "Rental Record for #{@name}\n"
-  end
-
-  def statement_footer(total_amount, frequent_renter_points)
-    <<~TXT
-    Amount owed is #{total_amount}\n"
-    You earned #{frequent_renter_points} frequent renter points
-    TXT
-  end
-
-  def statement_line_for_rental(rental)
-    space_needed_after_move_title = " " * (50 - rental.movie.title.length)
-    "\t#{rental.movie.title}#{space_needed_after_move_title}#{rental.amount_due}\n"
+  def statement_content
+    statement.to_s
   end
 end

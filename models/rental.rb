@@ -1,6 +1,9 @@
 class Rental
   attr_reader :movie, :days_rented
 
+  BASE_FREQUENT_RENTER_POINTS       = 1
+  BASE_BONUS_FREQUENT_RENTER_POINTS = 1
+
   def initialize(movie, days_rented)
     @movie, @days_rented = movie, days_rented
   end
@@ -25,7 +28,15 @@ class Rental
     end
   end
 
+  def total_frequent_renter_points
+    BASE_FREQUENT_RENTER_POINTS + bonus_frequent_renter_points
+  end
+
   def bonus_frequent_renter_points
-    movie.price_code == Movie::NEW_RELEASE && days_rented > 1 ? 1 : 0
+    if movie.price_code == Movie::NEW_RELEASE && days_rented > 1
+      BASE_BONUS_FREQUENT_RENTER_POINTS
+    else
+      0
+    end
   end
 end
