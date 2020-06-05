@@ -27,7 +27,7 @@ class Customer
 
     def footer
       <<~TXT
-      Amount owed is #{customer.total_amount}
+      Amount owed is #{customer.total_amount_due}
       You earned #{customer.frequent_renter_points} frequent renter points
       TXT
     end
