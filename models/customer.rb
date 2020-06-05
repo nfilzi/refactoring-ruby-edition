@@ -16,8 +16,8 @@ class Customer
     @total_amount_due ||= @rentals.sum(&:amount_due)
   end
 
-  def frequent_renter_points
-    @frequent_renter_points ||= begin
+  def total_frequent_renter_points
+    @total_frequent_renter_points ||= begin
       @rentals.map { |rental| rental.total_frequent_renter_points }.sum
     end
   end
