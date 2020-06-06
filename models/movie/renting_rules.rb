@@ -1,43 +1,27 @@
 require_relative 'renting_rule'
+require_relative 'renting_rules/specs'
 
 class Movie
   class RentingRules
-    def self.all
-      {
-        new_release: {
-          base_price:                   ->(days_rented) { days_rented * 3 },
-          additional_billing:           ->(_) { 0 },
-          base_frequent_renter_points:  ->(_) { 1 },
-          bonus_frequent_renter_points: ->(days_rented) { days_rented > 1 ? 1 : 0 }
-        },
-        regular: {
-          base_price:                   ->(_) { 2 },
-          additional_billing:           ->(days_rented) { days_rented > 2 ? (days_rented - 2) * 1.5 : 0 },
-          base_frequent_renter_points:  ->(_) { 1 },
-          bonus_frequent_renter_points: ->(_) { 0 }
-        },
-        children: {
-          base_price:                   ->(_) { 1.5 },
-          additional_billing:           ->(days_rented) { days_rented > 3 ? (days_rented - 3) * 1.5 : 0 },
-          base_frequent_renter_points:  ->(_) { 1 },
-          bonus_frequent_renter_points: ->(_) { 0 }
-        }
-      }
-    end
+    class << self
+      def all
+        @all ||= all_specs.map do |reference, specs|
+          specs = { reference: reference }.merge(specs)
+          ::Movie::RentingRule.new(specs)
+        end
+      end
 
-    def self.find_by_reference(reference)
-      rule_specs = all[reference]
+      def all_specs
+        SPECS
+      end
 
-      if rule_specs
-        specs = { reference: reference }.merge(rule_specs)
-        ::Movie::RentingRule.new(specs)
-      else
-        nil
+      def find_by_reference(reference)
+        all.find { |rule| rule.reference == reference }
       end
     end
 
-    def initialize
-      @rules = []
+    def initialize(rules = [])
+      @rules = rules
     end
 
     def add_rule(rule)

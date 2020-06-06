@@ -1,6 +1,7 @@
 class Movie
   class RentingRule
-    attr_reader :base_price_computation, :additional_billing_computation,
+    attr_reader :reference,
+                :base_price_computation, :additional_billing_computation,
                 :base_frequent_renter_points_computation, :bonus_frequent_renter_points_computation
 
     def initialize(specs = {})
