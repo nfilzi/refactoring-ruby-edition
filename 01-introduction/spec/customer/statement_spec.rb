@@ -5,9 +5,9 @@ require_relative '../../models/movie'
 require_relative '../../models/rental'
 
 RSpec.describe Customer::Statement do
-  let(:lotr_1) { Movie.new('LOTR - The Fellowship of the Ring', 0) }
-  let(:lotr_2) { Movie.new('LOTR - The Two Towers',             0) }
-  let(:lotr_3) { Movie.new('LOTR - The Return of the King',     1) }
+  let(:lotr_1) { Movie.new('LOTR - The Fellowship of the Ring', Movie::RegularPrice.new)    }
+  let(:lotr_2) { Movie.new('LOTR - The Two Towers',             Movie::RegularPrice.new)    }
+  let(:lotr_3) { Movie.new('LOTR - The Return of the King',     Movie::NewReleasePrice.new) }
 
   let(:nicolas) { Customer.new('Nicolas Filzi') }
   let(:nicolas_statement) { Customer::Statement.new(nicolas) }
