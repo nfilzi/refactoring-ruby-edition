@@ -9,34 +9,10 @@ class Rental
   end
 
   def amount_due
-    @amount_due ||= begin
-      amount = 0
-      case movie.price_code
-      when Movie::REGULAR
-        amount += 2
-        amount += (days_rented - 2) * 1.5 if days_rented > 2
-
-      when Movie::NEW_RELEASE
-        amount += days_rented * 3
-
-      when Movie::CHILDRENS
-        amount += 1.5
-        amount += (days_rented - 3) * 1.5 if days_rented > 3
-      end
-
-      amount
-    end
+    movie.renting_rules.amount_due_for_rental(self)
   end
 
   def total_frequent_renter_points
-    BASE_FREQUENT_RENTER_POINTS + bonus_frequent_renter_points
-  end
-
-  def bonus_frequent_renter_points
-    if movie.price_code == Movie::NEW_RELEASE && days_rented > 1
-      BASE_BONUS_FREQUENT_RENTER_POINTS
-    else
-      0
-    end
+    movie.renting_rules.frequent_renter_points_for_rental(self)
   end
 end

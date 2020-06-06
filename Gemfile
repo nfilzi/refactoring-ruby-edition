@@ -6,3 +6,4 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
 gem "rspec", "~> 3.0"
 gem 'rspec-html-matchers'
+gem 'pry-byebug'

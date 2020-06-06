@@ -1,15 +1,28 @@
 require_relative '../../models/customer/statement'
-
 require_relative '../../models/customer'
 require_relative '../../models/movie'
 require_relative '../../models/rental'
 
 RSpec.describe Customer::Statement do
-  let(:lotr_1) { Movie.new('LOTR - The Fellowship of the Ring', 0) }
-  let(:lotr_2) { Movie.new('LOTR - The Two Towers',             0) }
-  let(:lotr_3) { Movie.new('LOTR - The Return of the King',     1) }
+  let(:lotr_1) do
+    movie = Movie.new('LOTR - The Fellowship of the Ring')
+    movie.add_renting_rule(:regular)
+    movie
+  end
 
-  let(:nicolas) { Customer.new('Nicolas Filzi') }
+  let(:lotr_2) do
+    movie = Movie.new('LOTR - The Two Towers')
+    movie.add_renting_rule(:regular)
+    movie
+  end
+
+  let(:lotr_3) do
+    movie = Movie.new('LOTR - The Return of the King')
+    movie.add_renting_rule(:new_release)
+    movie
+  end
+
+  let(:nicolas)           { Customer.new('Nicolas Filzi') }
   let(:nicolas_statement) { Customer::Statement.new(nicolas) }
 
   describe "#to_s" do
