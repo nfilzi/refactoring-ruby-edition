@@ -18,7 +18,13 @@ class Movie
         additional_billing:           ->(days_rented) { days_rented > 3 ? (days_rented - 3) * 1.5 : 0 },
         base_frequent_renter_points:  ->(_) { 1 },
         bonus_frequent_renter_points: ->(_) { 0 }
-      }
+      },
+      exclusive: {
+        base_price:                   ->(_) { 2 },
+        additional_billing:           ->(days_rented) { days_rented > 2 ? (days_rented - 2) * 3 : 0 },
+        base_frequent_renter_points:  ->(_) { 2 },
+        bonus_frequent_renter_points: ->(_) { 0 }
+      },
     }
   end
 end

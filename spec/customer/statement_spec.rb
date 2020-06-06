@@ -13,6 +13,7 @@ RSpec.describe Customer::Statement do
   let(:lotr_2) do
     movie = Movie.new('LOTR - The Two Towers')
     movie.add_renting_rule(:regular)
+    movie.add_renting_rule(:exclusive)
     movie
   end
 
@@ -36,10 +37,10 @@ RSpec.describe Customer::Statement do
       <<~TXT
         Rental Record for Nicolas Filzi
         \tLOTR - The Fellowship of the Ring                 3.5
-        \tLOTR - The Two Towers                             3.5
+        \tLOTR - The Two Towers                             8.5
         \tLOTR - The Return of the King                     9
-        Amount owed is 16.0
-        You earned 4 frequent renter points
+        Amount owed is 21.0
+        You earned 6 frequent renter points
       TXT
     end
 
@@ -62,18 +63,18 @@ RSpec.describe Customer::Statement do
 
       it 'which contains the amount owed for each rented movie' do
         expect(nicolas_statement.to_s).to match(/LOTR - The Fellowship of the Ring\s+3\.5/)
-        expect(nicolas_statement.to_s).to match(/LOTR - The Two Towers\s+3\.5/)
+        expect(nicolas_statement.to_s).to match(/LOTR - The Two Towers\s+8\.5/)
         expect(nicolas_statement.to_s).to match(/LOTR - The Return of the King\s+9/)
       end
     end
 
     describe 'its footer' do
       it 'which contains the amount of frequent renter points' do
-        expect(nicolas_statement.to_s).to match(/You earned 4 frequent renter points/)
+        expect(nicolas_statement.to_s).to match(/You earned 6 frequent renter points/)
       end
 
       it 'which contains the total amound owed' do
-        expect(nicolas_statement.to_s).to match(/Amount owed is 16.0/)
+        expect(nicolas_statement.to_s).to match(/Amount owed is 21.0/)
       end
     end
   end
@@ -90,12 +91,12 @@ RSpec.describe Customer::Statement do
         <h1>Rental Record for Nicolas Filzi</h1>
         <ul>
           <li>LOTR - The Fellowship of the Ring - €3.5</li>
-          <li>LOTR - The Two Towers - €3.5</li>
+          <li>LOTR - The Two Towers - €8.5</li>
           <li>LOTR - The Return of the King - €9</li>
         </ul>
         <footer>
-          <section>Amount owed is 16.0</section>
-          <section>You earned 4 frequent renter points</section>
+          <section>Amount owed is 21.0</section>
+          <section>You earned 6 frequent renter points</section>
         </footer>
       HTML
     end
@@ -140,7 +141,7 @@ RSpec.describe Customer::Statement do
           end
 
           with_tag('li') do
-            with_text(/€3.5/)
+            with_text(/€8.5/)
           end
 
           with_tag('li') do
@@ -158,7 +159,7 @@ RSpec.describe Customer::Statement do
       it 'contains the total amound owed' do
         expect(nicolas_statement.to_html).to have_tag('footer') do
           with_tag('section') do
-            with_text('Amount owed is 16.0')
+            with_text('Amount owed is 21.0')
           end
         end
       end
@@ -166,7 +167,7 @@ RSpec.describe Customer::Statement do
       it 'contains the amount of frequent renter points' do
         expect(nicolas_statement.to_html).to have_tag('footer') do
           with_tag('section') do
-            with_text('You earned 4 frequent renter points')
+            with_text('You earned 6 frequent renter points')
           end
         end
       end
