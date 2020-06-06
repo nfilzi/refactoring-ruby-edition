@@ -13,15 +13,17 @@ class Movie
     end
 
     def amount_due_for_rental(rental)
-      base_price_amount         = base_price_computation.call(rental.days_rented)
-      additional_billing_amount = additional_billing_computation.call(rental.days_rented)
+      days_rented = rental.days_rented
+      base_price_amount         = base_price_computation.call(days_rented)
+      additional_billing_amount = additional_billing_computation.call(days_rented)
 
       base_price_amount + additional_billing_amount
     end
 
     def frequent_renter_points_for_rental(rental)
-      base_frequent_renter_points  = base_frequent_renter_points_computation.call(rental.days_rented)
-      bonus_frequent_renter_points = bonus_frequent_renter_points_computation.call(rental.days_rented)
+      days_rented = rental.days_rented
+      base_frequent_renter_points  = base_frequent_renter_points_computation.call(days_rented)
+      bonus_frequent_renter_points = bonus_frequent_renter_points_computation.call(days_rented)
 
       base_frequent_renter_points + bonus_frequent_renter_points
     end
