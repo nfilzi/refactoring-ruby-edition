@@ -5,14 +5,15 @@ class Order
     end
 
     def price
-      base_price = @quantity * @item_price
-      if base_price > 1000
-        discount_factor = 0.95
-      else
-        discount_factor = 0.98
-      end
+      @price ||= base_price * discount_factor
+    end
 
-      base_price * discount_factor
+    def base_price
+      @base_price ||= @quantity * @item_price
+    end
+
+    def discount_factor
+      @discount_factor ||= base_price > 1000 ? 0.95 : 0.98
     end
   end
 end
