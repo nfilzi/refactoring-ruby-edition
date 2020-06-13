@@ -17,10 +17,24 @@ class Delivery
   end
 
   def charge
-    if date < SUMMER_START || date > SUMMER_END
-      quantity * @winter_rate + @winter_service_charge
-    else
-      quantity * @summer_rate
-    end
+    in_winter? ? winter_charge : summer_charge
+  end
+
+  private
+
+  def in_summer?
+    !in_winter?
+  end
+
+  def in_winter?
+    date < SUMMER_START || date > SUMMER_END
+  end
+
+  def winter_charge
+    quantity * @winter_rate + @winter_service_charge
+  end
+
+  def summer_charge
+    quantity * @summer_rate
   end
 end
