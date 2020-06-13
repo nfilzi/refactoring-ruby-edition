@@ -1,8 +1,19 @@
+require 'delegates'
+require_relative 'telephone_number'
+
 class Person
-  attr_reader   :name
-  attr_accessor :office_area_code, :office_number
+  extend Delegates
+  delegate  *TelephoneNumber.delegated_responsibilities,
+    to:     :office_telephone,
+    prefix: :office
+
+  attr_reader :name, :office_telephone
+
+  def initialize
+    @office_telephone = TelephoneNumber.new
+  end
 
   def telephone_number
-    "(#{@office_area_code}) #{@office_number}"
+    @office_telephone.telephone_number
   end
 end
