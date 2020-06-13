@@ -31,17 +31,14 @@ class Payroll
   end
 
   def amount_due
-    if @dead
-      dead_amount_due
+    return dead_amount_due if @dead
+    if @separated
+      separated_amount_due
     else
-      if @separated
-        separated_amount_due
+      if @retired
+        retired_amount
       else
-        if @retired
-          retired_amount
-        else
-          currently_employed_amount
-        end
+        currently_employed_amount
       end
     end
   end
