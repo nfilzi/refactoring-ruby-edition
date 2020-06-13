@@ -1,5 +1,7 @@
 class Stats
   def self.number_of_orders_for(orders, customer_name)
-    orders.select {|order| order.customer_name == customer_name }.size
+    orders.select do |order|
+      order.customer == Customer.with_name(customer_name)
+    end.size
   end
 end
